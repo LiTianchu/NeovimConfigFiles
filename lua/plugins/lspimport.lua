@@ -52,7 +52,12 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
+					{
+						name = "nvim_lsp",
+						entry_filter = function(entry, ctx)
+							return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Text -- Filter out 'Text' kind items
+						end,
+					},
 					-- { name = 'vsnip' }, -- For vsnip users.
 					{ name = "luasnip" }, -- For luasnip users.
 					-- { name = 'ultisnips' }, -- For ultisnips users.
