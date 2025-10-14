@@ -128,6 +128,7 @@ require("neo-tree").setup({
 		-- position = "float",
 		-- position = "left",
 		position = "right",
+        width = 32,
 	},
 })
 
@@ -135,12 +136,12 @@ require("lualine").setup({
 	options = { theme = "everforest" },
 })
 
+require("render-markdown").setup({
+})
 require("plugins.copilotconfig")
 require("plugins.lspconfig")
 
 
-require("render-markdown").setup({
-})
 
 -- require("image").setup({
 -- 	backend = "kitty", -- or "ueberzug" or "sixel"
@@ -154,3 +155,4 @@ require("render-markdown").setup({
 -- })
 
 require("themes.color")
+
