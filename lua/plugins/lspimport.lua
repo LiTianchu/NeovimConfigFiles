@@ -1,22 +1,24 @@
 return {
-		{ "williamboman/mason.nvim" },
-		{ "williamboman/mason-lspconfig.nvim" },
-		{
-			"neovim/nvim-lspconfig",
-			lazy = false,
-		},
-		{
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+	},
+	{
+		"nvimtools/none-ls.nvim",
+		dependencies = { "nvimtools/none-ls-extras.nvim" },
+	},
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
 			"nvimtools/none-ls.nvim",
-			dependencies = { "nvimtools/none-ls-extras.nvim" },
 		},
-		{
-			"jay-babu/mason-null-ls.nvim",
-			event = { "BufReadPre", "BufNewFile" },
-			dependencies = {
-				"williamboman/mason.nvim",
-				"nvimtools/none-ls.nvim",
-			},
-		},
+	},
+	{ "saadparwaiz1/cmp_luasnip" },
+	{ "rafamadriz/friendly-snippets" },
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = {
@@ -50,27 +52,59 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
-					{ name = 'nvim_lsp' },
+					{ name = "nvim_lsp" },
 					-- { name = 'vsnip' }, -- For vsnip users.
 					{ name = "luasnip" }, -- For luasnip users.
 					-- { name = 'ultisnips' }, -- For ultisnips users.
 					-- { name = 'snippy' }, -- For snippy users.
 				}, {
 					{ name = "buffer" },
+					-- { name = "html-css" },
 				}),
+				formatting = {
+					format = function(entry, vim_item)
+						if entry.source.name == "html-css" then -- Display filename and extensions in the completion menu
+							vim_item.menu = "[" .. (entry.completion_item.provider or "html-css") .. "]"
+						end
+						return vim_item
+					end,
+				},
 			})
-    		-- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
-			-- Set configuration for specific filetype.
-			--[[ cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'git' },
-    }, {
-      { name = 'buffer' },
-    })
- })
-require("cmp_git").setu() ]]
-			--
 		end,
 	},
-    { "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-nvim-lsp" },
+	-- {
+	-- 	"Jezda1337/nvim-html-css",
+	-- 	dependencies = { "hrsh7th/nvim-cmp", "nvim-treesitter/nvim-treesitter" },
+	-- 	opts = {
+	-- 		enable_on = {
+	-- 			"html",
+	-- 			"htmldjango",
+	-- 			"tsx",
+	-- 			"jsx",
+	-- 			"erb",
+	-- 			"svelte",
+	-- 			"vue",
+	-- 			"blade",
+	-- 			"php",
+	-- 			"templ",
+	-- 			"astro",
+	-- 		},
+	-- 		handlers = {
+	-- 			definition = { bind = "gd" },
+	-- 			hover = { bind = "K", wrap = true, border = "none", position = "cursor" },
+	-- 		},
+	-- 		documentation = { auto_show = true },
+	-- 		style_sheets = {
+	-- 			"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+	-- 			"https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.3/css/bulma.min.css",
+	-- 			"./index.css",
+	-- 		},
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		vim.schedule(function()
+	-- 			require("html-css"):setup(opts)
+	-- 		end)
+	-- 	end,
+	-- },
 }

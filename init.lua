@@ -74,16 +74,16 @@ require("lazy").setup({
 			"nvim-lualine/lualine.nvim",
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 		},
-        {
-            "MeanderingProgrammer/render-markdown.nvim",
-            -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
-            -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
-            dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
-            ---@module 'render-markdown'
-            ---@type render.md.UserConfig
-            opts = {},
-        },
-        require("plugins.copilotimport"),
+		{
+			"MeanderingProgrammer/render-markdown.nvim",
+			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+			dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+			---@module 'render-markdown'
+			---@type render.md.UserConfig
+			opts = {},
+		},
+		require("plugins.copilotimport"),
 		require("plugins.lspimport"),
 	},
 	-- Configure any other settings here. See the documentation for more details.
@@ -111,7 +111,29 @@ vim.keymap.set("n", "<C-p>", telescope_builtin.find_files, {})
 vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, {})
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "lua", "javascript" },
+	ensure_installed = {
+		"lua",
+		"javascript",
+		"typescript",
+		"html",
+		"css",
+		"markdown",
+        "c",
+        "cpp",
+        "c_sharp",
+        "python",
+        "rust",
+        "json",
+        "dockerfile",
+        "graphql",
+        "svelte",
+        "java",
+        "gdscript",
+        "hlsl",
+        "glsl",
+        "toml",
+        "yaml",
+	},
 	highlight = { enable = true },
 	indent = { enable = true },
 })
@@ -138,9 +160,7 @@ require("lualine").setup({
 require("plugins.copilotconfig")
 require("plugins.lspconfig")
 
-
-require("render-markdown").setup({
-})
+require("render-markdown").setup({})
 
 -- require("image").setup({
 -- 	backend = "kitty", -- or "ueberzug" or "sixel"
