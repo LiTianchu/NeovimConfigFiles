@@ -1,3 +1,3 @@
 # Neovim Config Files
 
-Put into ~/.config/nvim/
+Put into `~/.config/nvim/`
