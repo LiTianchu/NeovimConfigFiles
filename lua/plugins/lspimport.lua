@@ -1,4 +1,22 @@
 return {
+		{ "williamboman/mason.nvim" },
+		{ "williamboman/mason-lspconfig.nvim" },
+		{
+			"neovim/nvim-lspconfig",
+			lazy = false,
+		},
+		{
+			"nvimtools/none-ls.nvim",
+			dependencies = { "nvimtools/none-ls-extras.nvim" },
+		},
+		{
+			"jay-babu/mason-null-ls.nvim",
+			event = { "BufReadPre", "BufNewFile" },
+			dependencies = {
+				"williamboman/mason.nvim",
+				"nvimtools/none-ls.nvim",
+			},
+		},
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = {
