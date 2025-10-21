@@ -30,3 +30,5 @@ vim.diagnostic.config({
 		prefix = "", -- for left padding
 	},
 })
+
+vim.o.winborder = "rounded"

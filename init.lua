@@ -83,6 +83,7 @@ require("lazy").setup({
 			---@type render.md.UserConfig
 			opts = {},
 		},
+        {"windwp/nvim-ts-autotag"},
 		require("plugins.copilotimport"),
 		require("plugins.lspimport"),
 	},
@@ -118,21 +119,21 @@ require("nvim-treesitter.configs").setup({
 		"html",
 		"css",
 		"markdown",
-        "c",
-        "cpp",
-        "c_sharp",
-        "python",
-        "rust",
-        "json",
-        "dockerfile",
-        "graphql",
-        "svelte",
-        "java",
-        "gdscript",
-        "hlsl",
-        "glsl",
-        "toml",
-        "yaml",
+		"c",
+		"cpp",
+		"c_sharp",
+		"python",
+		"rust",
+		"json",
+		"dockerfile",
+		"graphql",
+		"svelte",
+		"java",
+		"gdscript",
+		"hlsl",
+		"glsl",
+		"toml",
+		"yaml",
 	},
 	highlight = { enable = true },
 	indent = { enable = true },
@@ -161,7 +162,22 @@ require("plugins.copilotconfig")
 require("plugins.lspconfig")
 
 require("render-markdown").setup({})
-
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+    ["html"] = {
+      enable_close = false
+    }
+  }
+})
 -- require("image").setup({
 -- 	backend = "kitty", -- or "ueberzug" or "sixel"
 -- 	processor = "magick_cli", -- or "magick_rock"
