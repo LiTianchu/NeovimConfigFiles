@@ -78,6 +78,18 @@ return {
 		end,
 	},
 	{ "hrsh7th/cmp-nvim-lsp" },
+	-- tailwind-tools.lua
+	-- {
+	-- 	"luckasRanarison/tailwind-tools.nvim",
+	-- 	name = "tailwind-tools",
+	-- 	build = ":UpdateRemotePlugins",
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-telescope/telescope.nvim", -- optional
+	-- 		"neovim/nvim-lspconfig", -- optional
+	-- 	},
+	-- 	opts = {}, -- your configuration
+	-- },
 	-- {
 	-- 	"Jezda1337/nvim-html-css",
 	-- 	dependencies = { "hrsh7th/nvim-cmp", "nvim-treesitter/nvim-treesitter" },

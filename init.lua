@@ -75,6 +75,11 @@ require("lazy").setup({
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 		},
 		{
+			"ThePrimeagen/harpoon",
+			branch = "harpoon2",
+			dependencies = { "nvim-lua/plenary.nvim" },
+		},
+		{
 			"MeanderingProgrammer/render-markdown.nvim",
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
@@ -83,6 +88,7 @@ require("lazy").setup({
 			---@type render.md.UserConfig
 			opts = {},
 		},
+		{ "windwp/nvim-ts-autotag" },
 		require("plugins.copilotimport"),
 		require("plugins.lspimport"),
 	},
@@ -119,21 +125,21 @@ require("nvim-treesitter.configs").setup({
 		"html",
 		"css",
 		"markdown",
-        "c",
-        "cpp",
-        "c_sharp",
-        "python",
-        "rust",
-        "json",
-        "dockerfile",
-        "graphql",
-        "svelte",
-        "java",
-        "gdscript",
-        "hlsl",
-        "glsl",
-        "toml",
-        "yaml",
+		"c",
+		"cpp",
+		"c_sharp",
+		"python",
+		"rust",
+		"json",
+		"dockerfile",
+		"graphql",
+		"svelte",
+		"java",
+		"gdscript",
+		"hlsl",
+		"glsl",
+		"toml",
+		"yaml",
 	},
 	highlight = { enable = true },
 	indent = { enable = true },
@@ -155,6 +161,24 @@ require("neo-tree").setup({
 	},
 })
 
+local harpoon = require("harpoon")
+
+-- REQUIRED
+harpoon:setup()
+-- REQUIRED
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+
 require("lualine").setup({
 	options = { theme = "everforest" },
 })
@@ -165,7 +189,22 @@ require("plugins.copilotconfig")
 require("plugins.lspconfig")
 
 require("render-markdown").setup({})
-
+require("nvim-ts-autotag").setup({
+	opts = {
+		-- Defaults
+		enable_close = true, -- Auto close tags
+		enable_rename = true, -- Auto rename pairs of tags
+		enable_close_on_slash = false, -- Auto close on trailing </
+	},
+	-- Also override individual filetype configs, these take priority.
+	-- Empty by default, useful if one of the "opts" global settings
+	-- doesn't work well in a specific filetype
+	per_filetype = {
+		["html"] = {
+			enable_close = false,
+		},
+	},
+})
 -- require("image").setup({
 -- 	backend = "kitty", -- or "ueberzug" or "sixel"
 -- 	processor = "magick_cli", -- or "magick_rock"

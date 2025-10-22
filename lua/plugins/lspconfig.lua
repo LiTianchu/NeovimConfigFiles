@@ -60,8 +60,20 @@ vim.lsp.enable("cssls")
 
 -- Tailwind CSS
 vim.lsp.config("tailwindcss", {
-    capabilities = capabilities,
+  settings = {
+    tailwindCSS = {
+      includeLanguages = {
+        typescript = "javascript",
+        typescriptreact = "javascript",
+        html = "html",
+        css = "css",
+        -- Add other file types as needed, e.g., "vue", "svelte"
+      },
+    },
+  },
+capabilities = capabilities,
 })
+
 vim.lsp.enable("tailwindcss", {})
 
 -- TypeScript/JavaScript
@@ -154,7 +166,11 @@ vim.lsp.config("bashls", {
 })
 vim.lsp.enable("bashls")
 
-
+-- vim.lsp.config("tailwind-tools", {
+--     capabilities = capabilities,
+-- })
+-- vim.lsp.enable("tailwind-tools")
+--
 -- Linter and Formatter settings
 local null_ls = require("null-ls")
 null_ls.setup({
@@ -164,3 +180,4 @@ null_ls.setup({
 		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
 	},
 })
+
