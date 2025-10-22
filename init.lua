@@ -30,7 +30,7 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
-		--{ "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+		-- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 		{
 			"folke/tokyonight.nvim",
 			lazy = false,
@@ -99,6 +99,7 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
+require("themes.color")
 local telescope_builtin = require("telescope.builtin")
 
 require("telescope").setup({
@@ -156,6 +157,7 @@ require("neo-tree").setup({
 		-- position = "float",
 		-- position = "left",
 		position = "right",
+        width = 32,
 	},
 })
 
@@ -181,6 +183,8 @@ require("lualine").setup({
 	options = { theme = "everforest" },
 })
 
+require("render-markdown").setup({
+})
 require("plugins.copilotconfig")
 require("plugins.lspconfig")
 
@@ -212,4 +216,20 @@ require("nvim-ts-autotag").setup({
 -- 	},
 -- })
 
-require("themes.color")
+
+-- In init.lua
+if vim.fn.has('wsl') == 1 then
+  vim.g.clipboard = {
+    name = 'WslClipboard',
+    copy = {
+      ['+'] = 'clip.exe',
+      ['*'] = 'clip.exe',
+    },
+    paste = {
+      ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+  }
+end
+
