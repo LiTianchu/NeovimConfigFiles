@@ -12,25 +12,46 @@ return {
 			{ "nvim-lua/plenary.nvim" },
 		},
 		keys = {
-			{ "<leader>cc", ":vertical rightbelow CopilotChatToggle<CR>", desc = "Toggle Copilot Chat" },
 			{
-				":vertical rightbelow CopilotChatExplain<CR>",
+				"<leader>cc",
+				":CopilotChatToggle<CR>",
+				desc = "Toggle Copilot Chat",
+			},
+			{
+				"<leader>ce",
+				function()
+					require("CopilotChat").ask("Explain how this code works.", {
+						selection = require("CopilotChat.select").visual,
+					})
+				end,
 				mode = "v",
 				desc = "Explain code",
 			},
 			{
 				"<leader>cf",
-				":vertical rightbelow CopilotChatFix<CR>",
+				function()
+					require("CopilotChat").ask("Fix this code.", {
+						selection = require("CopilotChat.select").visual,
+					})
+				end,
 				mode = "v",
 				desc = "Fix code",
 			},
 			{
-				"leader>co",
-				":vertical rightbelow CopilotChatOptimize<CR>",
+				"<leader>co",
+				function()
+					require("CopilotChat").ask("Optimize this code.", {
+						selection = require("CopilotChat.select").visual,
+					})
+				end,
 				mode = "v",
 				desc = "Optimize code",
 			},
-			{ "<leader>c", ":vertical rightbelow CopilotChat", desc = "Open Copilot Chat" },
+			{
+				"<leader>c",
+				":CopilotChat<CR>",
+				desc = "Open Copilot Chat",
+			},
 		},
 	},
 }

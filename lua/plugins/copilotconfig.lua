@@ -14,7 +14,7 @@ require("CopilotChat").setup({
 	window = {
 		layout = "vertical",
 		-- layout = 'float',
-		width = 0.35,
+		width = 0.3,
 		title = "Copilot",
 	},
 	headers = {
