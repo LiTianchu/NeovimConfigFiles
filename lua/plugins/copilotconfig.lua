@@ -10,6 +10,7 @@ require("copilot").setup({
 })
 
 require("CopilotChat").setup({
+    model = "claude-sonnet-4.5",
 	window = {
 		layout = "vertical",
 		-- layout = 'float',
