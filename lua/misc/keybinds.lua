@@ -14,6 +14,9 @@ vim.keymap.set("n", "<leader>nf", ":Neotree float toggle<CR>", { desc = "Neo-tre
 
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+vim.keymap.set("n", "gl", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to Type Definition" })
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<leader><F2>", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<F12>", vim.lsp.buf.references, { desc = "LSP References" })

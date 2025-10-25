@@ -36,7 +36,6 @@ require("mason-null-ls").setup({
 		"csharpier", -- C# formatter
 	},
 })
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- LSP settings for various languages
