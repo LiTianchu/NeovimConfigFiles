@@ -89,6 +89,12 @@ require("lazy").setup({
 			opts = {},
 		},
 		{ "windwp/nvim-ts-autotag" },
+		{
+			"HiPhish/rainbow-delimiters.nvim",
+			dependencies = {
+				"nvim-treesitter/nvim-treesitter",
+			},
+		},
 		require("plugins.copilotimport"),
 		require("plugins.lspimport"),
 	},
@@ -165,9 +171,7 @@ require("neo-tree").setup({
 
 local harpoon = require("harpoon")
 
--- REQUIRED
 harpoon:setup()
--- REQUIRED
 
 vim.keymap.set("n", "<leader>a", function()
 	harpoon:list():add()
@@ -222,18 +226,7 @@ require("nvim-ts-autotag").setup({
 		},
 	},
 })
--- require("image").setup({
--- 	backend = "kitty", -- or "ueberzug" or "sixel"
--- 	processor = "magick_cli", -- or "magick_rock"
--- 	integrations = {
--- 		markdown = {
--- 			enabled = true,
--- 			filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
--- 		},
--- 	},
--- })
 
--- In init.lua
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {
 		name = "WslClipboard",
