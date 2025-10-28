@@ -1,11 +1,12 @@
 vim.cmd.colorscheme("tokyonight-storm")
---vim.cmd.colorscheme("catpuccin")
 vim.o.guifont = "JetBrainsMono Nerd Font:h10"
 vim.opt.termguicolors = true
 
 -- line number color
-vim.cmd("highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=#3e7075")
+vim.cmd("highlight LineNr term=bold cterm=NONE ctermfg=Darkgray ctermbg=NONE gui=NONE guifg=#7ea8a7")
 vim.cmd("highlight CursorLineNr term=bold cterm=NONE ctermfg=Yellow ctermbg=NONE gui=NONE guifg=Yellow guibg=#3e7075")
+vim.cmd("highlight LineNrAbove term=bold cterm=NONE ctermfg=Darkgray ctermbg=NONE gui=NONE guifg=#7ea8a7")
+vim.cmd("highlight LineNrBelow term=bold cterm=NONE ctermfg=Darkgray ctermbg=NONE gui=NONE guifg=#7ea8a7")
 
 -- cursor line bg color
 vim.cmd("highlight CursorLine guibg=#3e7075 ctermbg=NONE")
@@ -15,13 +16,10 @@ vim.cmd("highlight Comment guifg=#819696 ctermfg=DarkGrey gui=italic cterm=itali
 
 if vim.g.neovide then
 	-- window bg
-	-- vim.cmd("highlight Normal guibg=#1a1a18 ctermbg=NONE")
 	vim.cmd("highlight Normal guibg=#1f2224 ctermbg=NONE")
 
 	-- floating window bg color
-	-- vim.cmd("highlight NormalFloat guibg=#1a1a18 ctermbg=NONE")
 	vim.cmd("highlight NormalFloat guibg=#1f2224 ctermbg=NONE")
-	-- vim.cmd("highlight DiagnosticFloating guibg=#1a1a18 ctermbg=NONE")
 	vim.cmd("highlight DiagnosticFloating guibg=#1f2224 ctermbg=NONE")
 	vim.g.neovide_opacity = 0.9
 	vim.g.neovide_normal_opacity = 0.9

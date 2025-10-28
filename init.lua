@@ -1,4 +1,6 @@
+-- Set mapleader before loading any plugins or settings
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 require("misc.options") -- general settings
 require("misc.keybinds") -- keybindings
@@ -20,17 +22,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-		-- add your plugins here
-		-- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 		{
 			"folke/tokyonight.nvim",
 			lazy = false,
@@ -43,14 +37,6 @@ require("lazy").setup({
 				},
 			},
 		},
-		-- {
-		-- 	"3rd/image.nvim",
-		-- 	build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
-		-- 	opts = {
-		-- 		processor = "magick_cli",
-		-- 	},
-		-- },
-		-- init.lua:
 		{
 			"nvim-telescope/telescope.nvim",
 			tag = "0.1.8",
@@ -64,7 +50,7 @@ require("lazy").setup({
 			dependencies = {
 				"nvim-lua/plenary.nvim",
 				"MunifTanjim/nui.nvim",
-				"nvim-tree/nvim-web-devicons", -- optional, but recommended
+				"nvim-tree/nvim-web-devicons",
 			},
 			lazy = false, -- neo-tree will lazily load itself
 		},
@@ -81,8 +67,6 @@ require("lazy").setup({
 		},
 		{
 			"MeanderingProgrammer/render-markdown.nvim",
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
 			dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
 			---@module 'render-markdown'
 			---@type render.md.UserConfig
@@ -217,9 +201,6 @@ require("nvim-ts-autotag").setup({
 		enable_rename = true, -- Auto rename pairs of tags
 		enable_close_on_slash = false, -- Auto close on trailing </
 	},
-	-- Also override individual filetype configs, these take priority.
-	-- Empty by default, useful if one of the "opts" global settings
-	-- doesn't work well in a specific filetype
 	per_filetype = {
 		["html"] = {
 			enable_close = false,
@@ -227,6 +208,7 @@ require("nvim-ts-autotag").setup({
 	},
 })
 
+-- Allow clipboard access in WSL
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {
 		name = "WslClipboard",
