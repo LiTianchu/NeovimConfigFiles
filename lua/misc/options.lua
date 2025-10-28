@@ -11,6 +11,7 @@ vim.opt.smartindent = true
 
 -- Line number
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Allow copy pasting with system clipboard
 vim.opt.clipboard:append("unnamedplus")
@@ -30,3 +31,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.expandtab = true -- use spaces instead of tabs
 vim.opt.shiftwidth = 4 -- indent width (4 spaces)
 vim.opt.tabstop = 4 -- tab display width
+
+-- Scroll offset
+vim.o.scrolloff = 5
