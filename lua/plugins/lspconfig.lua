@@ -19,6 +19,7 @@ require("mason-lspconfig").setup({
 		"marksman", -- Markdown
 		"eslint", -- ESLint
 		"bashls", -- Bash
+        -- "ocamllsp", -- OCaml
 	},
 })
 
@@ -34,6 +35,7 @@ require("mason-null-ls").setup({
 		"sql_formatter", -- SQL formatter
 		"yamlfmt", -- YAML formatter
 		"csharpier", -- C# formatter
+        -- "ocamlformat", -- OCaml formatter
 	},
 })
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -164,7 +166,22 @@ vim.lsp.config("bashls", {
     capabilities = capabilities,
 })
 vim.lsp.enable("bashls")
+vim.lsp.config("ocaml-lsp", {
+    -- This is the crucial line: it forces the command to be run through OPAM.
+    -- OPAM will execute 'ocamllsp' using the environment of the *active* switch,
+    -- which should be your OCaml 4.14 switch where you installed the compatible LSP.
+    cmd = { "opam", "exec", "--", "ocamllsp" },
+    capabilities = capabilities,
+    -- You may also need to set a root directory marker if your setup relies on it
+    -- root_dir = vim.fs.find({'dune-project', 'esy.json', '.git'}, { upward = true })[1],
+})
 
+-- 2. ENABLE the ocaml-lsp configuration
+vim.lsp.enable("ocaml-lsp")
+-- vim.lsp.config("ocaml-lsp", {
+--     capabilities = capabilities,
+-- })
+-- vim.lsp.enable("ocaml-lsp")
 -- vim.lsp.config("tailwind-tools", {
 --     capabilities = capabilities,
 -- })
