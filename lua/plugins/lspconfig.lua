@@ -19,7 +19,7 @@ require("mason-lspconfig").setup({
 		"marksman", -- Markdown
 		"eslint", -- ESLint
 		"bashls", -- Bash
-        -- "ocamllsp", -- OCaml
+		-- "ocamllsp", -- OCaml
 	},
 })
 
@@ -35,7 +35,7 @@ require("mason-null-ls").setup({
 		"sql_formatter", -- SQL formatter
 		"yamlfmt", -- YAML formatter
 		"csharpier", -- C# formatter
-        -- "ocamlformat", -- OCaml formatter
+		-- "ocamlformat", -- OCaml formatter
 	},
 })
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -43,137 +43,137 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 -- LSP settings for various languages
 -- Lua
 vim.lsp.config("lua_ls", {
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      diagnostics = { globals = { "vim" } },
-    },
-  },
+	capabilities = capabilities,
+	settings = {
+		Lua = {
+			diagnostics = { globals = { "vim" } },
+		},
+	},
 })
 
 vim.lsp.enable("lua_ls")
 
 -- CSS
 vim.lsp.config("cssls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("cssls")
 
 -- Tailwind CSS
 vim.lsp.config("tailwindcss", {
-  settings = {
-    tailwindCSS = {
-      includeLanguages = {
-        typescript = "javascript",
-        typescriptreact = "javascript",
-        html = "html",
-        css = "css",
-        -- Add other file types as needed, e.g., "vue", "svelte"
-      },
-    },
-  },
-capabilities = capabilities,
+	settings = {
+		tailwindCSS = {
+			includeLanguages = {
+				typescript = "javascript",
+				typescriptreact = "javascript",
+				html = "html",
+				css = "css",
+				-- Add other file types as needed, e.g., "vue", "svelte"
+			},
+		},
+	},
+	capabilities = capabilities,
 })
 
 vim.lsp.enable("tailwindcss", {})
 
 -- TypeScript/JavaScript
 vim.lsp.config("ts_ls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("ts_ls", {})
 
 -- Rust
 vim.lsp.config("rust_analyzer", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("rust_analyzer")
 
 -- C#
 vim.lsp.config("omnisharp", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("omnisharp")
 
 -- HTML
 vim.lsp.config("html", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("html")
 
 -- Python
 vim.lsp.config("pyright", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("pyright")
 
 -- C/C++
 vim.lsp.config("clangd", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("clangd")
 
 -- Java
 vim.lsp.config("jdtls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("jdtls")
 
 -- YAML
 vim.lsp.config("yamlls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("yamlls")
 
 -- JSON
 vim.lsp.config("jsonls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("jsonls")
 
 -- Docker
 vim.lsp.config("dockerls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("dockerls")
 
 -- SQL
 vim.lsp.config("sqlls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("sqlls")
 
 -- GraphQL
 vim.lsp.config("graphql", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("graphql")
 
 -- Markdown
 vim.lsp.config("marksman", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("marksman")
 
 -- ESLint
 vim.lsp.config("eslint", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("eslint")
 
 -- Bash
 vim.lsp.config("bashls", {
-    capabilities = capabilities,
+	capabilities = capabilities,
 })
 vim.lsp.enable("bashls")
 vim.lsp.config("ocaml-lsp", {
-    -- This is the crucial line: it forces the command to be run through OPAM.
-    -- OPAM will execute 'ocamllsp' using the environment of the *active* switch,
-    -- which should be your OCaml 4.14 switch where you installed the compatible LSP.
-    cmd = { "opam", "exec", "--", "ocamllsp" },
-    capabilities = capabilities,
-    -- You may also need to set a root directory marker if your setup relies on it
-    -- root_dir = vim.fs.find({'dune-project', 'esy.json', '.git'}, { upward = true })[1],
+	-- This is the crucial line: it forces the command to be run through OPAM.
+	-- OPAM will execute 'ocamllsp' using the environment of the *active* switch,
+	-- which should be your OCaml 4.14 switch where you installed the compatible LSP.
+	cmd = { "opam", "exec", "--", "ocamllsp" },
+	capabilities = capabilities,
+	-- You may also need to set a root directory marker if your setup relies on it
+	-- root_dir = vim.fs.find({'dune-project', 'esy.json', '.git'}, { upward = true })[1],
 })
 
 -- 2. ENABLE the ocaml-lsp configuration
@@ -194,6 +194,9 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua, -- Lua formatter
 		null_ls.builtins.completion.spell, -- spell checking
 		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
+		null_ls.builtins.formatting.black.with({
+			extra_args = { "--fast" },
+		}),
+		null_ls.builtins.formatting.isort,
 	},
 })
-
