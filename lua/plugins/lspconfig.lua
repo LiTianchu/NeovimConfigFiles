@@ -194,9 +194,15 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua, -- Lua formatter
 		null_ls.builtins.completion.spell, -- spell checking
 		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
+        null_ls.builtins.formatting.prettierd, -- JS/TS formatter
 		null_ls.builtins.formatting.black.with({
 			extra_args = { "--fast" },
 		}),
 		null_ls.builtins.formatting.isort,
+        null_ls.builtins.formatting.clang_format,
+        null_ls.builtins.formatting.markdownlint,
+        null_ls.builtins.formatting.sql_formatter,
+        null_ls.builtins.formatting.yamlfmt,
+        null_ls.builtins.formatting.csharpier,
 	},
 })
