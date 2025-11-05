@@ -52,6 +52,11 @@ return {
 				":CopilotChat<CR>",
 				desc = "Open Copilot Chat",
 			},
+            {
+                "<leader>cm",
+                ":CopilotChatModels<CR>",
+                desc = "List Copilot Chat Models",
+            },
 		},
 	},
 }
