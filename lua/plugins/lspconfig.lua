@@ -6,6 +6,7 @@ require("mason-lspconfig").setup({
 		"cssls", -- CSS
 		"tailwindcss", -- Tailwind
 		"html", -- HTML
+        "svelte", -- Svelte
 		"omnisharp", -- C#
 		"rust_analyzer", -- Rust
 		"pyright", -- Python
@@ -68,6 +69,7 @@ vim.lsp.config("tailwindcss", {
 				typescriptreact = "javascript",
 				html = "html",
 				css = "css",
+                svelte = "html",
 				-- Add other file types as needed, e.g., "vue", "svelte"
 			},
 		},
@@ -82,6 +84,12 @@ vim.lsp.config("ts_ls", {
 	capabilities = capabilities,
 })
 vim.lsp.enable("ts_ls", {})
+
+-- Svelte
+vim.lsp.config("svelte", {
+    capabilities = capabilities,
+})
+vim.lsp.enable("svelte")
 
 -- Rust
 vim.lsp.config("rust_analyzer", {
