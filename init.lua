@@ -132,7 +132,7 @@ require("nvim-treesitter.configs").setup({
 		"glsl",
 		"toml",
 		"yaml",
-        "ocaml",
+		"ocaml",
 	},
 	highlight = { enable = true },
 	indent = { enable = true },

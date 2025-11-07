@@ -6,7 +6,7 @@ require("mason-lspconfig").setup({
 		"cssls", -- CSS
 		"tailwindcss", -- Tailwind
 		"html", -- HTML
-        "svelte", -- Svelte
+		"svelte", -- Svelte
 		"omnisharp", -- C#
 		"rust_analyzer", -- Rust
 		"pyright", -- Python
@@ -20,23 +20,23 @@ require("mason-lspconfig").setup({
 		"marksman", -- Markdown
 		"eslint", -- ESLint
 		"bashls", -- Bash
-		-- "ocamllsp", -- OCaml
+		-- "ocamllsp", -- OCaml (handled seprately to use opam)
 	},
 })
 
 require("mason-null-ls").setup({
 	ensure_installed = {
 		"stylua", -- Lua formatter
-		"eslint_d", -- JS/TS linter
+		-- "eslint_d", -- JS/TS linter use eslint lsp instead
 		"prettierd", -- JS/TS formatter
 		"black", -- Python formatter
 		"isort", -- Python import sorter
-		"clang_format", -- C/C++ formatter
+		-- "clang_format", -- C/C++ formatter (use clangd lsp instead)
 		"markdownlint", -- Markdown linter
 		"sql_formatter", -- SQL formatter
 		"yamlfmt", -- YAML formatter
-		"csharpier", -- C# formatter
-		-- "ocamlformat", -- OCaml formatter
+		-- "csharpier", -- C# formatter (use omnisharp lsp instead)
+		-- "ocamlformat", -- OCaml formatter (use opam installed version)
 	},
 })
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -50,6 +50,10 @@ vim.lsp.config("lua_ls", {
 			diagnostics = { globals = { "vim" } },
 		},
 	},
+	on_attach = function(client, _)
+		-- Disable lua_ls formatting, use stylua
+		client.server_capabilities.documentFormattingProvider = false
+	end,
 })
 
 vim.lsp.enable("lua_ls")
@@ -69,8 +73,8 @@ vim.lsp.config("tailwindcss", {
 				typescriptreact = "javascript",
 				html = "html",
 				css = "css",
-                svelte = "html",
-				-- Add other file types as needed, e.g., "vue", "svelte"
+				svelte = "html",
+				vue = "html",
 			},
 		},
 	},
@@ -82,12 +86,41 @@ vim.lsp.enable("tailwindcss", {})
 -- TypeScript/JavaScript
 vim.lsp.config("ts_ls", {
 	capabilities = capabilities,
+	settings = {
+		typescript = {
+			inlayHints = {
+				includeInlayParameterNameHints = "all",
+				includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+				includeInlayFunctionParameterTypeHints = true,
+				includeInlayVariableTypeHints = true,
+				includeInlayPropertyDeclarationTypeHints = true,
+				includeInlayFunctionLikeReturnTypeHints = true,
+				includeInlayEnumMemberValueHints = true,
+			},
+		},
+	},
+	on_attach = function(client, _)
+		-- Disable ts_ls formatting, use prettierd instead
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+	end,
+	filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 })
 vim.lsp.enable("ts_ls", {})
 
 -- Svelte
 vim.lsp.config("svelte", {
-    capabilities = capabilities,
+	capabilities = capabilities,
+	filetypes = { "svelte" },
+	settings = {
+		svelte = {
+			plugin = {
+				typescript = { enable = true },
+				css = { enable = true },
+				svelte = { format = { enable = false } }, -- Disable built-in formatter to use prettierd
+			},
+		},
+	},
 })
 vim.lsp.enable("svelte")
 
@@ -166,6 +199,11 @@ vim.lsp.enable("marksman")
 -- ESLint
 vim.lsp.config("eslint", {
 	capabilities = capabilities,
+	settings = {
+		experimental = {
+			useFlatConfig = true, -- Set this to true for eslint.config.js
+		},
+	},
 })
 vim.lsp.enable("eslint")
 
@@ -179,6 +217,7 @@ vim.lsp.config("ocaml-lsp", {
 	-- OPAM will execute 'ocamllsp' using the environment of the *active* switch,
 	-- which should be your OCaml 4.14 switch where you installed the compatible LSP.
 	cmd = { "opam", "exec", "--", "ocamllsp" },
+	filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
 	capabilities = capabilities,
 	-- You may also need to set a root directory marker if your setup relies on it
 	-- root_dir = vim.fs.find({'dune-project', 'esy.json', '.git'}, { upward = true })[1],
@@ -201,16 +240,85 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua, -- Lua formatter
 		null_ls.builtins.completion.spell, -- spell checking
-		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
-        null_ls.builtins.formatting.prettierd, -- JS/TS formatter
+		-- require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
+		null_ls.builtins.formatting.prettierd.with({
+			filetypes = {
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"css",
+				"scss",
+				"less",
+				"html",
+				"json",
+				"jsonc",
+				"graphql",
+				"svelte",
+				"handlebars",
+			},
+		}), -- JS/TS formatter
 		null_ls.builtins.formatting.black.with({
 			extra_args = { "--fast" },
 		}),
 		null_ls.builtins.formatting.isort,
-        null_ls.builtins.formatting.clang_format,
-        null_ls.builtins.formatting.markdownlint,
-        null_ls.builtins.formatting.sql_formatter,
-        null_ls.builtins.formatting.yamlfmt,
-        null_ls.builtins.formatting.csharpier,
+		null_ls.builtins.formatting.clang_format,
+		null_ls.builtins.formatting.markdownlint,
+		null_ls.builtins.formatting.sql_formatter,
+		null_ls.builtins.formatting.yamlfmt,
+		null_ls.builtins.formatting.csharpier,
 	},
+})
+
+-- Format on save for multiple languages
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = {
+		-- Web
+		"*.ts",
+		"*.tsx",
+		"*.js",
+		"*.jsx",
+		"*.vue",
+		"*.html",
+		"*.css",
+		"*.scss",
+		"*.less",
+		"*.svelte",
+
+		-- Data
+		"*.json",
+		"*.jsonc",
+		"*.yaml",
+		"*.yml",
+		"*.graphql",
+		"*.gql",
+
+		-- Systems
+		"*.c",
+		"*.cpp",
+		"*.h",
+		"*.hpp",
+		"*.rs",
+		"*.go",
+		"*.java",
+		"*.cs",
+		"*.py",
+
+		-- Scripting
+		"*.lua",
+		"*.sh",
+		"*.bash",
+
+		-- Documentation
+		"*.md",
+		"*.sql",
+
+		-- OCaml
+		"*.ml",
+		"*.mli",
+	},
+	callback = function()
+		vim.lsp.buf.format({ async = false })
+	end,
 })
