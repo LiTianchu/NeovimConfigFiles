@@ -93,7 +93,7 @@ require("themes.color")
 local telescope_builtin = require("telescope.builtin")
 
 require("telescope").setup({
-	pickers = { find_files = { hidden = true } },
+	pickers = { find_files = { hidden = false } },
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({}),
@@ -143,7 +143,7 @@ require("neo-tree").setup({
 	filesystem = {
 		filtered_items = {
 			visible = true,
-			hide_dotfiles = false,
+			hide_dotfiles = true,
 		},
 	},
 	window = {
