@@ -3,13 +3,11 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv") -- Alt-j to more down
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv") -- Alt-k to more up
 
 -- Neotree
-vim.keymap.set("n", "<leader>nr", ":Neotree right reveal<CR>", { desc = "Reveal file in Neo-tree" })
-vim.keymap.set("n", "<leader>nt", ":Neotree right toggle<CR>", { desc = "Toggle Neotree" })
-vim.keymap.set("n", "<leader>nc", ":Neotree close<CR>", { desc = "Close Neotree" })
+vim.keymap.set("n", "<leader>nt", ":Neotree right toggle reveal<CR>", { desc = "Toggle Neotree" })
 vim.keymap.set("n", "<leader>nb", ":Neotree right show buffers<CR>", { desc = "Show Neotree open buffers" })
 vim.keymap.set("n", "<leader>ng", ":Neotree show git_status<CR>", { desc = "Show git status" })
 vim.keymap.set("n", "<leader>nh", ":h Neo-tree<CR>", { desc = "Open help manual for Neo-tree" })
-vim.keymap.set("n", "<leader>nf", ":Neotree float toggle<CR>", { desc = "Neo-tree (float)" })
+vim.keymap.set("n", "<leader>nf", ":Neotree float toggle reveal<CR>", { desc = "Neo-tree (float)" })
 
 -- LSP Navigation
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
@@ -17,7 +15,12 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set("n", "gl", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to Type Definition" })
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
-vim.keymap.set("n", "gdx", ":belowright split | lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition (Horizontal Split)" })
+vim.keymap.set(
+	"n",
+	"gdx",
+	":belowright split | lua vim.lsp.buf.definition()<CR>",
+	{ desc = "Go to Definition (Horizontal Split)" }
+)
 vim.keymap.set("n", "gdv", ":vsplit | lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition (Vertical Split)" })
 vim.keymap.set("n", "gdt", ":tab split | lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition (New Tab)" })
 
