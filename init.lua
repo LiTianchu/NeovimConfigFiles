@@ -130,6 +130,8 @@ require("nvim-treesitter.configs").setup({
 		"svelte",
 		"java",
 		"gdscript",
+		"godot_resource",
+		"gdshader",
 		"hlsl",
 		"glsl",
 		"toml",
@@ -189,6 +191,8 @@ require("neo-tree").setup({
 			},
 			always_show_by_pattern = { -- uses glob style patterns
 				".env*",
+				"*.tscn",
+				"*.tres",
 			},
 		},
 	},

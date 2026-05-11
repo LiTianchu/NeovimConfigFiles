@@ -25,8 +25,8 @@ return {
 					request = "launch",
 					name = "Launch Godot Scene",
 					project = "${workspaceFolder}",
-					launch_game_instance = false, -- Godot is already open
-					launch_scene = false,
+					-- launch_game_instance = false, -- Godot is already open
+					-- launch_scene = false,
 				},
 			}
 
