@@ -223,12 +223,38 @@ vim.lsp.config("ocaml-lsp", {
 
 vim.lsp.enable("ocaml-lsp")
 
-vim.lsp.config("gdscript", {
-	cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
-	filetypes = { "gdscript", "gd" },
-	capabilities = capabilities,
-})
+-- GDScript (Godot) — not managed by Mason; Godot itself provides the LSP server on port 6005
+local is_wsl = vim.fn.has("wsl") == 1
 
+local gdscript_config = {
+	capabilities = capabilities,
+	cmd = vim.lsp.rpc.connect( -- connect to the local machine ip that hosts the gdscript lsp
+		is_wsl and vim.fn.system("grep nameserver /etc/resolv.conf | awk '{print $2}'"):gsub("%s+", "") or "127.0.0.1",
+		6005
+	),
+	filetypes = { "gdscript", "gd" },
+	root_dir = function(bufnr, cb)
+		cb(vim.fs.root(bufnr, { "project.godot", ".git" }))
+	end,
+}
+
+if is_wsl then
+	gdscript_config.on_init = function(client)
+		client.server_capabilities.documentFormattingProvider = false
+		-- Godot runs on Windows and sends Windows-style URIs (file:///D:/...).
+		-- Remap them to WSL mount paths (file:///mnt/d/...) so Neovim can resolve them.
+		if client.workspace_folders then
+			for i, folder in ipairs(client.workspace_folders) do
+				local new_uri = folder.uri:gsub("^file:///(%a):/", function(drive)
+					return "file:///mnt/" .. drive:lower() .. "/"
+				end)
+				client.workspace_folders[i] = { uri = new_uri, name = new_uri }
+			end
+		end
+	end
+end
+
+vim.lsp.config("gdscript", gdscript_config)
 vim.lsp.enable("gdscript")
 
 -- Linter and Formatter settings

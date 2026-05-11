@@ -144,8 +144,52 @@ require("neo-tree").setup({
 	-- options go here
 	filesystem = {
 		filtered_items = {
-			visible = true,
+			visible = false,
 			hide_dotfiles = true,
+			hide_gitignored = true,
+			hide_ignored = true, -- hide files that are ignored by other gitignore-like files
+			-- other gitignore-like files, in descending order of precedence.
+			ignore_files = {
+				".neotreeignore",
+				".ignore",
+				-- ".rgignore"
+			},
+			hide_by_name = {
+				"node_modules",
+				".git",
+			},
+			hide_by_pattern = { -- uses glob style patterns
+				"*.meta",
+				"*/src/*/temp/*",
+				-- godot specific patterns --
+				"*.uid",
+				"*.tscn",
+				"*.tres",
+				"*.import",
+				-- end godot specific patterns --
+				-- unity specific patterns --
+				"*.unity",
+				"*.asset",
+				"*.prefab",
+				-- end unity specific patterns --
+			},
+			never_show = { -- remains hidden even if "show hidden" is toggled on
+				".DS_Store",
+				"thumbs.db",
+			},
+			always_show = { -- remains visible even if other settings would normally hide it
+				".gitignore",
+				".gitattributes",
+				".prettier*",
+				".config",
+				".vscode",
+				".zed",
+				".vs",
+				".idea",
+			},
+			always_show_by_pattern = { -- uses glob style patterns
+				".env*",
+			},
 		},
 	},
 	window = {
