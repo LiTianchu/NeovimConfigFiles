@@ -328,6 +328,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		-- OCaml
 		"*.ml",
 		"*.mli",
+
+		-- Game Dev
+		"*.gd",
 	},
 	callback = function()
 		vim.lsp.buf.format({ async = false })
