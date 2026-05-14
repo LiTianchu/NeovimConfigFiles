@@ -280,10 +280,10 @@ local harpoon = require("harpoon")
 
 harpoon:setup()
 
-vim.keymap.set("n", "<leader>aa", function()
+vim.keymap.set("n", "<leader>m", function()
 	harpoon:list():add()
 end)
-vim.keymap.set("n", "<leader>al", function()
+vim.keymap.set("n", "<leader>m", function()
 	harpoon.ui:toggle_quick_menu(harpoon:list())
 end)
 
@@ -299,11 +299,11 @@ require("lualine").setup({
 	options = { theme = "everforest" },
 })
 
-require("render-markdown").setup({})
+require("render-markdown").setup({
+	file_types = { "markdown", "Avante" },
+})
 require("plugins.copilotconfig")
 require("plugins.lspconfig")
-
-require("render-markdown").setup({})
 require("nvim-ts-autotag").setup({
 	opts = {
 		-- Defaults

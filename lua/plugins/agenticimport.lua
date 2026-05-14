@@ -1,68 +1,136 @@
-local m = {}
-
-m.keys = {
-	{
-		"<c-s>t",
-		function()
-			require("agentic").toggle()
-		end,
-		mode = { "n", "v", "i" },
-		desc = "toggle agentic chat",
-	},
-	{
-		"<leader>ac",
-		function()
-			require("agentic").add_selection_or_file_to_context()
-		end,
-		mode = { "n", "v" },
-		desc = "add file or selection to context",
-	},
-	{
-		"<c-s>n",
-		function()
-			require("agentic").new_session()
-		end,
-		mode = { "n", "v", "i" },
-		desc = "new agentic session",
-	},
-	{
-		"<c-s>r",
-		function()
-			require("agentic").restore_session()
-		end,
-		mode = { "n", "v", "i" },
-		desc = "agentic: restore session",
-		silent = true,
-	},
-	{
-		"<leader>ad",
-		function()
-			require("agentic").add_current_line_diagnostics()
-		end,
-		mode = { "n" },
-		desc = "add current line diagnostics",
-	},
-	{
-		"<leader>ab",
-		function()
-			require("agentic").add_buffer_diagnostics()
-		end,
-		mode = { "n" },
-		desc = "add all buffer diagnostics",
-	},
-}
-
--- Any ACP-compatible provider works. Built-in: "claude-agent-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "copilot-acp" | "auggie-acp" | "mistral-vibe-acp" | "cline-acp" | "goose-acp"
-m.opts = {
-	provider = "copilot-acp",
-	windows = {
-		position = "left",
-		width = "25%",
-	},
-}
-
 return {
-	"carlos-algms/agentic.nvim",
-	keys = m.keys,
-	opts = m.opts,
+	"yetone/avante.nvim",
+	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+	-- ⚠️ must add this setting! ! !
+	build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+		or "make",
+	event = "VeryLazy",
+	version = false, -- Never set this value to "*"! Never!
+	---@module 'avante'
+	---@type avante.Config
+	opts = {
+		-- add any opts here
+		-- this file can contain specific instructions for your project
+		instructions_file = "avante.md",
+		-- for example
+		provider = "copilot",
+		providers = {
+			-- claude = {
+			-- 	endpoint = "https://api.anthropic.com",
+			-- 	model = "claude-sonnet-4-20250514",
+			-- 	timeout = 30000, -- Timeout in milliseconds
+			-- 	extra_request_body = {
+			-- 		temperature = 0.75,
+			-- 		max_tokens = 20480,
+			-- 	},
+			-- },
+			-- moonshot = {
+			-- 	endpoint = "https://api.moonshot.ai/v1",
+			-- 	model = "kimi-k2-0711-preview",
+			-- 	timeout = 30000, -- Timeout in milliseconds
+			-- 	extra_request_body = {
+			-- 		temperature = 0.75,
+			-- 		max_tokens = 32768,
+			-- 	},
+			-- },
+		},
+	},
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"MunifTanjim/nui.nvim",
+		--- The below dependencies are optional,
+		--"nvim-mini/mini.pick", -- for file_selector provider mini.pick
+		"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+		"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+		--"ibhagwan/fzf-lua", -- for file_selector provider fzf
+		--"stevearc/dressing.nvim", -- for input provider dressing
+		--"folke/snacks.nvim", -- for input provider snacks
+		"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+		"zbirenbaum/copilot.lua", -- for providers='copilot'
+		{
+			-- support for image pasting
+			"HakonHarnes/img-clip.nvim",
+			event = "VeryLazy",
+			opts = {
+				-- recommended settings
+				default = {
+					embed_image_as_base64 = false,
+					prompt_for_file_name = false,
+					drag_and_drop = {
+						insert_mode = true,
+					},
+					-- required for Windows users
+					use_absolute_path = true,
+				},
+			},
+		},
+		{
+			-- Make sure to set this up properly if you have lazy=true
+			"MeanderingProgrammer/render-markdown.nvim",
+			opts = {
+				file_types = { "markdown", "Avante" },
+			},
+			ft = { "markdown", "Avante" },
+		},
+	},
 }
+
+-- Key binds applied by Avante
+-- `A`             Apply all
+-- `a`             Apply cursor
+-- `r`             Retry user request
+-- `e`             Edit user request
+-- `<Tab>`         Switch windows
+-- `<S-Tab>`       Reverse switch windows
+-- `d`             Remove file
+-- `@`             Add file
+-- `q`             Close sidebar
+-- `<leader>aa`    Show sidebar
+-- `<leader>at`    Toggle sidebar visibility
+-- `<leader>ar`    Refresh sidebar
+-- `<leader>af`    Switch sidebar focus
+-- `]p`            Next prompt
+-- `[p`            Previous prompt
+--
+-- Suggestion~
+--
+--                                              *avante.nvim-suggestion-keymaps*
+-- `<leader>a?`    Select model
+-- `<leader>an`    New ask
+-- `<leader>ae`    Edit selected blocks
+-- `<leader>aS`    Stop current AI request
+-- `<leader>ah`    Select between chat histories
+-- `<M-l>`         Accept suggestion
+-- `<M-]>`         Next suggestion
+-- `<M-[>`         Previous suggestion
+-- `<C-]>`         Dismiss suggestion
+-- `<leader>ad`    Toggle debug mode
+-- `<leader>as`    Toggle suggestion display
+-- `<leader>aR`    Toggle repository map
+--
+-- Files~
+--
+--                                                   *avante.nvim-file-keymaps*
+-- `<leader>ac`    Add current buffer to selected files
+-- `<leader>aB`    Add all buffer files to selected files
+--
+-- Diff~
+--
+--                                                   *avante.nvim-diff-keymaps*
+-- `co`            Choose ours
+-- `ct`            Choose theirs
+-- `ca`            Choose all theirs
+-- `cb`            Choose both
+-- `cc`            Choose cursor
+-- `]x`            Move to next conflict
+-- `[x`            Move to previous conflict
+--
+-- Confirm~
+--
+--                                                *avante.nvim-confirm-keymaps*
+-- `<C-w>f`        Focus confirm window
+-- `c`             Confirm code
+-- `r`             Confirm response
+-- `i`             Confirm input
+--
+--
