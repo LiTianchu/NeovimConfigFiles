@@ -55,25 +55,38 @@ vim.diagnostic.config({
 
 vim.o.winborder = "rounded"
 vim.g.rainbow_delimiters = {
-    strategy = {
-        [''] = 'rainbow-delimiters.strategy.global',
-        vim = 'rainbow-delimiters.strategy.local',
-    },
-    query = {
-        [''] = 'rainbow-delimiters',
-        lua = 'rainbow-blocks',
-    },
-    priority = {
-        [''] = 110,
-        lua = 210,
-    },
-    highlight = {
-        'RainbowDelimiterRed',
-        'RainbowDelimiterYellow',
-        'RainbowDelimiterBlue',
-        'RainbowDelimiterOrange',
-        'RainbowDelimiterGreen',
-        'RainbowDelimiterViolet',
-        'RainbowDelimiterCyan',
-    },
+	strategy = {
+		[""] = "rainbow-delimiters.strategy.global",
+		vim = "rainbow-delimiters.strategy.local",
+	},
+	query = {
+		[""] = "rainbow-delimiters",
+		lua = "rainbow-blocks",
+	},
+	priority = {
+		[""] = 110,
+		lua = 210,
+	},
+	highlight = {
+		"RainbowDelimiterRed",
+		"RainbowDelimiterYellow",
+		"RainbowDelimiterBlue",
+		"RainbowDelimiterOrange",
+		"RainbowDelimiterGreen",
+		"RainbowDelimiterViolet",
+		"RainbowDelimiterCyan",
+	},
 }
+
+-- DAP sign colors
+vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#e06c75" }) -- red
+vim.api.nvim_set_hl(0, "DapBreakpointCondition", { fg = "#e5c07b" }) -- yellow
+vim.api.nvim_set_hl(0, "DapLogPoint", { fg = "#61afef" }) -- blue
+vim.api.nvim_set_hl(0, "DapStopped", { fg = "#98c379", bg = "#2d3b2d" }) -- green + bg highlight
+vim.api.nvim_set_hl(0, "DapBreakpointRejected", { fg = "#888888" }) -- grey
+
+vim.fn.sign_define("DapBreakpoint", { text = "B", texthl = "DapBreakpoint" })
+vim.fn.sign_define("DapBreakpointCondition", { text = "C", texthl = "DapBreakpointCondition" })
+vim.fn.sign_define("DapLogPoint", { text = "L", texthl = "DapLogPoint" })
+vim.fn.sign_define("DapStopped", { text = "->", texthl = "DapStopped", linehl = "DapStopped" })
+vim.fn.sign_define("DapBreakpointRejected", { text = "R", texthl = "DapBreakpointRejected" })

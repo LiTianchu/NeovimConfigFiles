@@ -35,6 +35,7 @@ require("mason-null-ls").setup({
 		"markdownlint", -- Markdown linter
 		"sql_formatter", -- SQL formatter
 		"yamlfmt", -- YAML formatter
+		"gdtoolkit", -- Godot formatter
 		-- "csharpier", -- C# formatter (use omnisharp lsp instead)
 		-- "ocamlformat", -- OCaml formatter (use opam installed version)
 	},
@@ -213,27 +214,36 @@ vim.lsp.config("bashls", {
 })
 vim.lsp.enable("bashls")
 vim.lsp.config("ocaml-lsp", {
-	-- This is the crucial line: it forces the command to be run through OPAM.
+	-- It forces the command to be run through OPAM.
 	-- OPAM will execute 'ocamllsp' using the environment of the *active* switch,
 	-- which should be your OCaml 4.14 switch where you installed the compatible LSP.
 	cmd = { "opam", "exec", "--", "ocamllsp" },
 	filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
 	capabilities = capabilities,
-	-- You may also need to set a root directory marker if your setup relies on it
-	-- root_dir = vim.fs.find({'dune-project', 'esy.json', '.git'}, { upward = true })[1],
 })
 
--- 2. ENABLE the ocaml-lsp configuration
 vim.lsp.enable("ocaml-lsp")
--- vim.lsp.config("ocaml-lsp", {
---     capabilities = capabilities,
--- })
--- vim.lsp.enable("ocaml-lsp")
--- vim.lsp.config("tailwind-tools", {
---     capabilities = capabilities,
--- })
--- vim.lsp.enable("tailwind-tools")
---
+
+local function godot_lsp_cmd()
+	if vim.fn.has("win32") == 1 then
+		return { "ncat", "localhost", "6005" }
+	else
+		return vim.lsp.rpc.connect("127.0.0.1", 6005)
+	end
+end
+
+local gdscript_config = {
+	capabilities = capabilities,
+	cmd = godot_lsp_cmd(),
+	filetypes = { "gdscript", "gd" },
+	root_dir = function(bufnr, cb)
+		cb(vim.fs.root(bufnr, { "project.godot", ".git" }))
+	end,
+}
+
+vim.lsp.config("gdscript", gdscript_config)
+vim.lsp.enable("gdscript")
+
 -- Linter and Formatter settings
 local null_ls = require("null-ls")
 null_ls.setup({
@@ -268,6 +278,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.sql_formatter,
 		null_ls.builtins.formatting.yamlfmt,
 		null_ls.builtins.formatting.csharpier,
+		null_ls.builtins.formatting.gdformat,
 	},
 })
 
