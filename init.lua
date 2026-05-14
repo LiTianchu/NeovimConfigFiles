@@ -95,6 +95,78 @@ require("themes.color")
 local telescope_builtin = require("telescope.builtin")
 
 require("telescope").setup({
+	defaults = {
+		file_ignore_patterns = {
+			"node_modules/",
+			".git",
+			"dist/",
+			"build/",
+			"%.meta",
+			"temp/",
+
+			-- godot specific patterns --
+			"%.uid",
+			"%.tscn",
+			"%.tres",
+			"%.import",
+			"%.res",
+
+			-- unity specific patterns --
+			"%.unity",
+			"%.asset",
+			"%.prefab",
+			"%.mat",
+			"%.anim",
+			"%.controller",
+			"%.lighting",
+
+			-- image formats
+			"%.png",
+			"%.jpg",
+			"%.jpeg",
+			"%.tga",
+			"%.webp",
+			"%.webm",
+			"%.bmp",
+			"%.gif",
+
+			-- archive formats
+			"%.zip",
+			"%.tar",
+			"%.gz",
+			"%.7z",
+
+			-- executable formats
+			"%.exe",
+
+			-- windows dynamic library format
+			"%.dll",
+
+			-- audio/video formats
+			"%.mp3",
+			"%.wav",
+			"%.ogg",
+			"%.mp4",
+			"%.mkv",
+			"%.avi",
+
+			-- 3D model formats
+			"%.fbx",
+			"%.gltf",
+			"%.glb",
+
+			-- Media source files
+			"%.psd",
+			"%.aseprite",
+			"%.blend",
+
+			-- font files
+			"%.ttf",
+			"%.otf",
+			"%.woff",
+			"%.woff2",
+		},
+	},
 	pickers = { find_files = { hidden = false } },
 	extensions = {
 		["ui-select"] = {
@@ -261,3 +333,15 @@ if vim.fn.has("wsl") == 1 then
 		cache_enabled = 0,
 	}
 end
+
+-- listen to godot host when open
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		local godotprojectfile = vim.fn.getcwd() .. "/project.godot"
+		print("checking: " .. godotprojectfile)
+		if vim.fn.filereadable(godotprojectfile) == 1 then
+			print("starting godothost")
+			vim.fn.serverstart("/tmp/godothost")
+		end
+	end,
+})

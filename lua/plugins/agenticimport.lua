@@ -2,7 +2,7 @@ local m = {}
 
 m.keys = {
 	{
-		"<c-\\>",
+		"<c-s>t",
 		function()
 			require("agentic").toggle()
 		end,
@@ -18,7 +18,7 @@ m.keys = {
 		desc = "add file or selection to context",
 	},
 	{
-		"<leader>ns",
+		"<c-s>n",
 		function()
 			require("agentic").new_session()
 		end,
@@ -26,7 +26,7 @@ m.keys = {
 		desc = "new agentic session",
 	},
 	{
-		"<leader>rs",
+		"<c-s>r",
 		function()
 			require("agentic").restore_session()
 		end,
@@ -55,6 +55,10 @@ m.keys = {
 -- Any ACP-compatible provider works. Built-in: "claude-agent-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "copilot-acp" | "auggie-acp" | "mistral-vibe-acp" | "cline-acp" | "goose-acp"
 m.opts = {
 	provider = "copilot-acp",
+	windows = {
+		position = "left",
+		width = "25%",
+	},
 }
 
 return {

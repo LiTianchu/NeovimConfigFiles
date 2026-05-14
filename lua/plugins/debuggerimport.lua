@@ -68,14 +68,17 @@ return {
 			local map = vim.keymap.set
 			map("n", "<F5>", dap.continue, { desc = "DAP: Continue" })
 			map("n", "<F8>", dap.step_over, { desc = "DAP: Step Over" })
-			map("n", "<F8>", dap.step_into, { desc = "DAP: Step Into" })
+			map("n", "<F9>", dap.step_into, { desc = "DAP: Step Into" })
 			map("n", "<F10>", dap.step_out, { desc = "DAP: Step Out" })
 			map("n", "<leader>db", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
 			map("n", "<leader>dB", function()
 				dap.set_breakpoint(vim.fn.input("Condition: "))
 			end, { desc = "DAP: Conditional Breakpoint" })
 			map("n", "<leader>du", dapui.toggle, { desc = "DAP: Toggle UI" })
-			map("n", "<leader>dr", dap.repl.open, { desc = "DAP: REPL" })
+			map("n", "<leader>dr", dap.repl.open, { desc = "DAP: REPL" }) -- Stop / Pause / Detach
+			map("n", "<leader>ds", dap.terminate, { desc = "DAP: Stop" })
+			map("n", "<leader>dp", dap.pause, { desc = "DAP: Pause" })
+			map("n", "<leader>dx", dap.disconnect, { desc = "DAP: Detach" })
 		end,
 	},
 }
