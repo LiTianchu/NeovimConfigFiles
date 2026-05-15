@@ -362,3 +362,13 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		end
 	end,
 })
+
+-- Auto open avante on startup
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		-- small delay so everything loads first
+		vim.defer_fn(function()
+			require("avante.api").ask()
+		end, 100)
+	end,
+})
