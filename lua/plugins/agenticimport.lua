@@ -7,7 +7,6 @@ return {
 	event = "VeryLazy",
 	version = false, -- Never set this value to "*"! Never!
 	---@module 'avante'
-	---@type avante.Config
 	opts = {
 		-- add any opts here
 		-- this file can contain specific instructions for your project
@@ -29,6 +28,8 @@ return {
 		},
 		windows = {
 			position = "left", -- Chat window appears on the left
+            wrap = true,
+            width = 25,
 		},
 		providers = {
 			copilot = {
@@ -153,5 +154,3 @@ return {
 -- `c`             Confirm code
 -- `r`             Confirm response
 -- `i`             Confirm input
---
---
