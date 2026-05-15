@@ -39,11 +39,11 @@ require("lazy").setup({
 		},
 		{
 			"nvim-telescope/telescope.nvim",
-			tag = "0.1.8",
+			branch = "master",
 			dependencies = { "nvim-lua/plenary.nvim" },
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
-		{ "nvim-treesitter/nvim-treesitter", branch = "master", lazy = false, build = ":TSUpdate" },
+		{ "nvim-treesitter/nvim-treesitter", branch = "main", lazy = false, build = ":TSUpdate" },
 		{
 			"nvim-neo-tree/neo-tree.nvim",
 			branch = "v3.x",
@@ -173,6 +173,9 @@ require("telescope").setup({
 			require("telescope.themes").get_dropdown({}),
 		},
 	},
+	preview = {
+		treesitter = true, -- Enable Treesitter syntax highlighting in the preview window
+	},
 })
 
 -- load telescope ui select extension
@@ -183,35 +186,52 @@ vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fd", telescope_builtin.diagnostics, {})
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, {})
 
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"lua",
-		"javascript",
-		"typescript",
-		"html",
-		"css",
-		"markdown",
-		"c",
-		"cpp",
-		"c_sharp",
-		"python",
-		"rust",
-		"json",
-		"dockerfile",
-		"graphql",
-		"svelte",
-		"java",
-		"gdscript",
-		"godot_resource",
-		"gdshader",
-		"hlsl",
-		"glsl",
-		"toml",
-		"yaml",
-		"ocaml",
-	},
-	highlight = { enable = true },
-	indent = { enable = true },
+require("nvim-treesitter").setup({
+	ensure_installed = {},
+	int = function()
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function()
+				-- Enable treesitter highlighting and disable regex syntax
+				pcall(vim.treesitter.start)
+				-- Enable treesitter-based indentation
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
+		})
+
+		local ensureInstalled = {
+			"lua",
+			"javascript",
+			"typescript",
+			"html",
+			"css",
+			"markdown",
+			"c",
+			"cpp",
+			"c_sharp",
+			"python",
+			"rust",
+			"json",
+			"dockerfile",
+			"graphql",
+			"svelte",
+			"java",
+			"gdscript",
+			"godot_resource",
+			"gdshader",
+			"hlsl",
+			"glsl",
+			"toml",
+			"yaml",
+			"ocaml",
+		}
+		local alreadyInstalled = require("nvim-treesitter.config").get_installed()
+		local parsersToInstall = vim.iter(ensureInstalled)
+			:filter(function(parser)
+				return not vim.tbl_contains(alreadyInstalled, parser)
+			end)
+			:totable()
+		require("nvim-treesitter").install(parsersToInstall)
+	end,
 })
 
 require("neo-tree").setup({
@@ -299,9 +319,6 @@ require("lualine").setup({
 	options = { theme = "everforest" },
 })
 
-require("render-markdown").setup({
-	file_types = { "markdown", "Avante" },
-})
 require("plugins.copilotconfig")
 require("plugins.lspconfig")
 require("nvim-ts-autotag").setup({

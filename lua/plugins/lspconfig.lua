@@ -82,7 +82,7 @@ vim.lsp.config("tailwindcss", {
 	capabilities = capabilities,
 })
 
-vim.lsp.enable("tailwindcss", {})
+vim.lsp.enable("tailwindcss")
 
 -- TypeScript/JavaScript
 vim.lsp.config("ts_ls", {
@@ -107,7 +107,7 @@ vim.lsp.config("ts_ls", {
 	end,
 	filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 })
-vim.lsp.enable("ts_ls", {})
+vim.lsp.enable("ts_ls")
 
 -- Svelte
 vim.lsp.config("svelte", {
@@ -273,11 +273,9 @@ null_ls.setup({
 			extra_args = { "--fast" },
 		}),
 		null_ls.builtins.formatting.isort,
-		null_ls.builtins.formatting.clang_format,
 		null_ls.builtins.formatting.markdownlint,
 		null_ls.builtins.formatting.sql_formatter,
 		null_ls.builtins.formatting.yamlfmt,
-		null_ls.builtins.formatting.csharpier,
 		null_ls.builtins.formatting.gdformat,
 	},
 })
