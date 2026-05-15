@@ -5,6 +5,10 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv") -- Alt-k to move up
 -- Remap ESC
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Escape from insert mode" })
 
+-- Remap horizontal navigation
+vim.keymap.set("n", "L", "$", { desc = "Move to end of line" })
+vim.keymap.set("n", "H", "^", { desc = "Move to beginning of line" })
+
 -- Neotree
 vim.keymap.set("n", "<leader>nt", ":Neotree right toggle reveal<CR>", { desc = "Toggle Neotree" })
 vim.keymap.set("n", "<leader>nb", ":Neotree right show buffers<CR>", { desc = "Show Neotree open buffers" })
