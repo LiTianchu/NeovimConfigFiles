@@ -33,4 +33,8 @@ vim.opt.shiftwidth = 4 -- indent width (4 spaces)
 vim.opt.tabstop = 4 -- tab display width
 
 -- Scroll offset
-vim.o.scrolloff = 5
+if vim.g.neovide then
+    vim.o.scrolloff = 0
+else
+    vim.o.scrolloff = 5
+end
