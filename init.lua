@@ -1,6 +1,10 @@
 -- Set mapleader before loading any plugins or settings
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.o.titlestring = "%{getcwd()}"
+vim.o.title = true
+
+vim.o.splitbelow = true
 
 require("misc.options") -- general settings
 require("misc.keybinds") -- keybindings
@@ -355,9 +359,7 @@ end
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
 		local godotprojectfile = vim.fn.getcwd() .. "/project.godot"
-		print("checking: " .. godotprojectfile)
 		if vim.fn.filereadable(godotprojectfile) == 1 then
-			print("starting godothost")
 			vim.fn.serverstart("/tmp/godothost")
 		end
 	end,
@@ -366,9 +368,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Auto open avante on startup
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
-		-- small delay so everything loads first
-		vim.defer_fn(function()
-			require("avante.api").ask()
-		end, 100)
+		require("avante.api").ask()
 	end,
 })

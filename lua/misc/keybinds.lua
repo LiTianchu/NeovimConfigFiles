@@ -64,3 +64,8 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase w
 -- Split windows (Alt + h / v)
 vim.keymap.set("n", "<A-h>", ":split<CR>", { desc = "Horizontal Split" })
 vim.keymap.set("n", "<A-v>", ":vsplit<CR>", { desc = "Vertical Split" })
+
+-- Terminal mode: Exit with Esc
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+-- Horizontal split terminal
+vim.keymap.set("n", "<leader>t", ":split | term<CR>", {})
