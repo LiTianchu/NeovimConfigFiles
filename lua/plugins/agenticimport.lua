@@ -1,7 +1,6 @@
 return {
 	"yetone/avante.nvim",
 	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-	-- ⚠️ must add this setting! ! !
 	build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
 		or "make",
 	event = "VeryLazy",
@@ -12,7 +11,8 @@ return {
 		-- this file can contain specific instructions for your project
 		instructions_file = "avante.md",
 		-- for example
-		provider = "copilot",
+		-- provider = "copilot"
+		provider = "codex",
 		behaviour = {
 			auto_suggestions = false,
 			auto_set_highlight_group = true,
@@ -28,9 +28,21 @@ return {
 		},
 		windows = {
 			position = "left", -- Chat window appears on the left
-            wrap = true,
-            width = 25,
+			wrap = true,
+			width = 25,
 		},
+		-- acp_providers = {
+		-- 	codex = {
+		-- 		command = "codex-acp",
+		-- 		args = {},
+		-- 		env = {
+		-- 			NODE_NO_WARNINGS = "1",
+		-- 			HOME = os.getenv("HOME"),
+		-- 			PATH = os.getenv("PATH"),
+		-- 			OPENAI_API_KEY = os.getenv("OPENAI_API_KEY"),
+		-- 		},
+		-- 	},
+		-- },
 		providers = {
 			copilot = {
 				model = "claude-sonnet-4.6",
