@@ -20,6 +20,7 @@ require("mason-lspconfig").setup({
 		"marksman", -- Markdown
 		"eslint", -- ESLint
 		"bashls", -- Bash
+		"prismals", -- Prisma
 		-- "ocamllsp", -- OCaml (handled seprately to use opam)
 	},
 })
